@@ -1,6 +1,6 @@
 {
-    "version":  "1.2.1",
-    "hinweis":  "Vollexport aller Tabellen ohne NEPLAN, automatische Aktualisierung",
+    "version":  "1.2.2",
+    "hinweis":  "Gleicher Inhalt wie 1.2.1, Test der automatischen Aktualisierung",
     "dateien":  [
                     {
                         "pfad":  "NEPLAN-Projektdatei exportieren.cmd",
