@@ -1,6 +1,6 @@
 {
-    "version":  "1.2.2",
-    "hinweis":  "Gleicher Inhalt wie 1.2.1, Test der automatischen Aktualisierung",
+    "version":  "1.2.3",
+    "hinweis":  "Projektdateien werden lokal kopiert, das Laufwerk wird nur einmal kurz gelesen",
     "dateien":  [
                     {
                         "pfad":  "NEPLAN-Projektdatei exportieren.cmd",
@@ -14,8 +14,8 @@
                     },
                     {
                         "pfad":  "README.txt",
-                        "sha256":  "84fa9744793aa37ed85dbeaa8bf0d70c05d25f4d3ae031841a13d2fc868a69e7",
-                        "groesse":  3427
+                        "sha256":  "a337b25e2eb386e0db16b43e9063506f0b68b6f587fe15358091d952e6ff0df2",
+                        "groesse":  3711
                     },
                     {
                         "pfad":  "Vorlage/Neplan-DB_Leer.mdb",
@@ -29,13 +29,13 @@
                     },
                     {
                         "pfad":  "werkzeug/exportieren.ps1",
-                        "sha256":  "fea16a89022f7aea3f792e0547762e59edf477c170d4004400add0ba338aa872",
-                        "groesse":  15284
+                        "sha256":  "8d44f8569173d1a03fcab41b962d87f49a2bdf809c419cf59493e9b67b494087",
+                        "groesse":  16149
                     },
                     {
                         "pfad":  "werkzeug/leser_pruefen.ps1",
-                        "sha256":  "d2832d46416b38bd8096d28d671d606cef7384e814f96407361b601812659b8d",
-                        "groesse":  7236
+                        "sha256":  "4ea674ad48d5866315e79d2c8a6f697faa863f1e28332c0ad130425527be3f56",
+                        "groesse":  7617
                     },
                     {
                         "pfad":  "werkzeug/MdbSchreiber.cs",
@@ -54,8 +54,8 @@
                     },
                     {
                         "pfad":  "werkzeug/Vollexport.cs",
-                        "sha256":  "8a1636a3d0b1f8e30ff17a099fc2a00571d0fa79095786f288f23d1aa84aa023",
-                        "groesse":  47585
+                        "sha256":  "8248969b95dfeee4c4ffcd95cff9525bcb79aabe6df2cb546573e11ccebd151d",
+                        "groesse":  49318
                     }
                 ]
 }

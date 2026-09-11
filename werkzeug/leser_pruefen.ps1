@@ -111,7 +111,10 @@ foreach ($netz in $netze) {
     $bericht.Add("Projektdatei: $prj")
     Write-Host "Projektdatei: $prj"
     try {
-        $v = [NeplanLeser.Vollexport]::Lies($prj)
+        # Wie beim Export: nur die lokale Kopie lesen, die Datei auf dem Laufwerk nicht offen halten
+        $kopie = [NeplanLeser.Vollexport]::Arbeitskopie($prj, (Join-Path $env:TEMP ('NEPLAN-Export-Kopien\' + [guid]::NewGuid().ToString('N'))))
+        try { $v = [NeplanLeser.Vollexport]::Lies($kopie, $prj) }
+        finally { Remove-Item -LiteralPath (Split-Path -Parent $kopie) -Recurse -Force -ErrorAction SilentlyContinue }
         $probe = Join-Path $BerichtOrdner "$($netz)_ohne_NEPLAN.mdb"
         Copy-Item -LiteralPath $Vorlage -Destination $probe -Force
         (Get-Item -LiteralPath $probe).Attributes = 'Normal'

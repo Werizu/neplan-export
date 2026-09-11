@@ -18,8 +18,11 @@ zum Beispiel Dingden.mdb. Gibt es sie schon, wird sie ersetzt. Über
 "Ordner öffnen" kommt man direkt hin. Diese Datenbanken nimmt der
 Schaltplan-Marker im Reiter "Netzabgleich".
 
-Die Projektdateien werden nur gelesen, auch vom gemeinsamen Laufwerk. Sie
-dürfen dabei in NEPLAN offen sein.
+Die Projektdateien auf dem gemeinsamen Laufwerk werden nie direkt verarbeitet.
+Das Werkzeug kopiert jede gewählte Datei einmal am Stück in einen lokalen
+Ordner, arbeitet nur mit dieser Kopie und löscht sie gleich danach wieder. Die
+Dateien dürfen dabei in NEPLAN offen sein. Wird eine Datei gerade gespeichert,
+kopiert das Werkzeug neu oder meldet sich, statt einen halben Stand zu nehmen.
 
 
 Was in der Datenbank steht

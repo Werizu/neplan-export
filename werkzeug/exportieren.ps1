@@ -48,6 +48,12 @@ function Exportiere([string[]]$dateien) {
         Add-Type -Path $quellen -ReferencedAssemblies System.Data, System.Xml
     }
     if (-not (Test-Path -LiteralPath $Ziel)) { New-Item -ItemType Directory -Path $Ziel -Force | Out-Null }
+    # Lokale Arbeitskopien der Projektdateien; Reste abgebrochener Laeufe wegraeumen
+    $Kopien = Join-Path $env:TEMP 'NEPLAN-Export-Kopien'
+    if (Test-Path -LiteralPath $Kopien) {
+        Get-ChildItem -LiteralPath $Kopien -Directory | Where-Object { $_.LastWriteTime -lt (Get-Date).AddHours(-12) } |
+            ForEach-Object { Remove-Item -LiteralPath $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
+    }
     $zeilen = @()
     $fertig = @()
     foreach ($prj in $dateien) {
@@ -55,7 +61,11 @@ function Exportiere([string[]]$dateien) {
         $mdb = Join-Path $Ziel "$ort.mdb"
         try {
             if (Ist-Gesperrt $mdb) { throw "$ort.mdb ist noch geöffnet, im SM oder in Access? Bitte schließen und noch einmal exportieren." }
-            $v = [NeplanLeser.Vollexport]::Lies($prj)
+            # Die Projektdatei auf dem gemeinsamen Laufwerk wird nur einmal am Stueck lesend kopiert,
+            # gelesen wird die lokale Kopie; sie ist danach sofort wieder weg
+            $kopie = [NeplanLeser.Vollexport]::Arbeitskopie($prj, (Join-Path $Kopien ([guid]::NewGuid().ToString('N'))))
+            try { $v = [NeplanLeser.Vollexport]::Lies($kopie, $prj) }
+            finally { Remove-Item -LiteralPath (Split-Path -Parent $kopie) -Recurse -Force -ErrorAction SilentlyContinue }
             Copy-Item -LiteralPath $Vorlage -Destination $mdb -Force
             (Get-Item -LiteralPath $mdb).Attributes = 'Normal'
             Unblock-File -LiteralPath $mdb    # kein Herkunftsvermerk "aus dem Internet", sonst warnt Office

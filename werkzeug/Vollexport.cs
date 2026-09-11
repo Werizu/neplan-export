@@ -54,7 +54,7 @@ namespace NeplanLeser
         private static readonly Regex TypMuster = new Regex(@"^[A-Z][A-Z0-9_\-]{2,}$");
         private static readonly HashSet<string> Schaltgeraet = new HashSet<string> { "LOADSWITCH", "COUPLING", "CIRC_BREAKER_2" };
 
-        public string Datei, Netz, Planname = "";
+        public string Datei, Herkunft, Netz, Planname = "";
         public DateTime? Planstand;
         public List<string> Hinweise = new List<string>();
         public List<Objekt> Alle = new List<Objekt>();       // ohne Klemmen (EDGE), in Dateireihenfolge
@@ -78,11 +78,38 @@ namespace NeplanLeser
 
         private int I32(int p) { return BitConverter.ToInt32(d, p); }
 
-        public static Vollexport Lies(string datei)
+        // Die Projektdateien liegen auf einem gemeinsamen Laufwerk. Dort wird genau einmal am
+        // Stueck und nur lesend kopiert, alles Weitere laeuft auf der lokalen Kopie. Aendert sich
+        // die Datei waehrend des Kopierens, wird neu kopiert (hoechstens dreimal).
+        public static string Arbeitskopie(string quelle, string ordner)
+        {
+            Directory.CreateDirectory(ordner);
+            string ziel = Path.Combine(ordner, Path.GetFileName(quelle));
+            for (int versuch = 1; ; versuch++)
+            {
+                var vorher = new FileInfo(quelle);
+                long laenge = vorher.Length;
+                DateTime stand = vorher.LastWriteTimeUtc;
+                using (var ein = new FileStream(quelle, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+                using (var aus = new FileStream(ziel, FileMode.Create, FileAccess.Write, FileShare.None))
+                    ein.CopyTo(aus);
+                var nachher = new FileInfo(quelle);
+                if (nachher.Length == laenge && nachher.LastWriteTimeUtc == stand && new FileInfo(ziel).Length == laenge) return ziel;
+                if (versuch >= 3) throw new IOException("Die Projektdatei wird gerade geändert, bitte gleich noch einmal versuchen: " + quelle);
+                System.Threading.Thread.Sleep(2000);
+            }
+        }
+
+        public static Vollexport Lies(string datei) { return Lies(datei, datei); }
+
+        // datei wird gelesen (die lokale Arbeitskopie); herkunft ist die Projektdatei auf dem
+        // Laufwerk, sie gibt dem Netz den Namen und steht als PROJECT in der INFOTABLE.
+        public static Vollexport Lies(string datei, string herkunft)
         {
             var v = new Vollexport();
             v.Datei = Path.GetFullPath(datei);
-            v.Netz = Path.GetFileNameWithoutExtension(v.Datei).ToUpperInvariant();
+            v.Herkunft = Path.GetFullPath(herkunft);
+            v.Netz = Path.GetFileNameWithoutExtension(v.Herkunft).ToUpperInvariant();
             v.d = new Cfb(Leser.LiesDatei(v.Datei)).LiesStrom("Root/Data");
             v.cs = Leser.Texte(v.d);
             v.starts = new int[v.cs.Count];
@@ -562,7 +589,7 @@ namespace NeplanLeser
                     Farben(w);
                     Faktoren(w);
                     Benutzerdaten(w);
-                    w.Zeile("INFOTABLE", Zeile("VERSION", Version, "LIB_PROJECT", 1, "PROJECT", Datei, "VARIANT", "Rootnet",
+                    w.Zeile("INFOTABLE", Zeile("VERSION", Version, "LIB_PROJECT", 1, "PROJECT", Herkunft, "VARIANT", "Rootnet",
                         "NAMES_IDS", 0, "DELETE_UPDATE", 0, "ALL_CHANGED", 0, "EXPORTNODES", 1, "EXPORTGRAPHIC", 0,
                         "EXPORT_TIME", DateTime.Now, "WORLD_LOG", 0, "USE42SYMBOLS", 0, "METER_BAR_NODE", 0, "METER_BAR_ELEM", 0,
                         "EXPORT_ONLY_FEEDED", 0, "USE_DEFAULT_COMPONENT_ORDER", 0, "IMPORT_AUXILIARY_GRAPHIC", 1,
