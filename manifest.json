@@ -1,0 +1,61 @@
+{
+    "version":  "2.0.0",
+    "hinweis":  "Vollexport aller Tabellen ohne NEPLAN, automatische Aktualisierung",
+    "dateien":  [
+                    {
+                        "pfad":  "NEPLAN-Projektdatei exportieren.cmd",
+                        "sha256":  "7e78854887e47545d1cd8ca63e4175554369867e99b9a9fdda253ddd5e9efbf6",
+                        "groesse":  419
+                    },
+                    {
+                        "pfad":  "Prüfen/Leser gegen NEPLAN prüfen.cmd",
+                        "sha256":  "631b7ff87d080b37d0bc194276dff257569eef75d34113c5242681df209bd6b7",
+                        "groesse":  433
+                    },
+                    {
+                        "pfad":  "README.txt",
+                        "sha256":  "84fa9744793aa37ed85dbeaa8bf0d70c05d25f4d3ae031841a13d2fc868a69e7",
+                        "groesse":  3427
+                    },
+                    {
+                        "pfad":  "Vorlage/Neplan-DB_Leer.mdb",
+                        "sha256":  "e701b01a466f06fe61a1169252578f6d92f4cfdadad1efaa764d47765e5898ba",
+                        "groesse":  335872
+                    },
+                    {
+                        "pfad":  "werkzeug/aktualisieren.ps1",
+                        "sha256":  "eb3180e127c35f316d0e757a14b67f75151e00babd4f4a93cb4f1e14ddcae8a3",
+                        "groesse":  6194
+                    },
+                    {
+                        "pfad":  "werkzeug/exportieren.ps1",
+                        "sha256":  "fea16a89022f7aea3f792e0547762e59edf477c170d4004400add0ba338aa872",
+                        "groesse":  15284
+                    },
+                    {
+                        "pfad":  "werkzeug/leser_pruefen.ps1",
+                        "sha256":  "d2832d46416b38bd8096d28d671d606cef7384e814f96407361b601812659b8d",
+                        "groesse":  7236
+                    },
+                    {
+                        "pfad":  "werkzeug/MdbSchreiber.cs",
+                        "sha256":  "66149e4d246af8feafffbb54133fae02a1527c0e430603dd5b22fc99f46278ff",
+                        "groesse":  20884
+                    },
+                    {
+                        "pfad":  "werkzeug/NepprjLeser.cs",
+                        "sha256":  "6870352f29e0c97fe2e7ce87d4c7109131bf9410749e4b2bdd8feda24a026933",
+                        "groesse":  23220
+                    },
+                    {
+                        "pfad":  "werkzeug/Regeln.cs",
+                        "sha256":  "e336472006b24bfa3abb4696353a84ac176bc3ccbfe18eb3224ed2efd704ae77",
+                        "groesse":  30330
+                    },
+                    {
+                        "pfad":  "werkzeug/Vollexport.cs",
+                        "sha256":  "8a1636a3d0b1f8e30ff17a099fc2a00571d0fa79095786f288f23d1aa84aa023",
+                        "groesse":  47585
+                    }
+                ]
+}
